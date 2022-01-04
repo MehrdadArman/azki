@@ -8,8 +8,9 @@ import Autocomplete from '@mui/material/Autocomplete';
 // ** schema
 import { selectLastInsuranceSchema } from './schema/Schema'
 
-//** svg
-import { ReactComponent as ArrowLeft } from '../../../assets/img/arrow.svg'
+// ** icon
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRight from '@mui/icons-material/ChevronRight';
 
 //** history
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +21,9 @@ import { getInsuranceCompanies, setSelectedLastInsurance } from '../../../redux/
 //**  custom components
 import { CustomeTextField } from '../../../components/inputs/CustomTextField'
 import { CustomButton } from '../../../components/buttons/CustomButton'
+
+// ** skeleton
+import FormContentSkeleton from '../../../components/skeleton/formContentSkeleton'
 
 //** redux
 import { useSelector, useDispatch } from 'react-redux'
@@ -32,7 +36,6 @@ const LastInsurance = () => {
     const dispatch = useDispatch()
     const insuranceList = useSelector((state) => state.insurance.insuranceList);
     const getInsuranceLoading = useSelector((state) => state.insurance.getInsuranceLoading);
-    const selectedLastInsurance = useSelector((state) => state.insurance.selectedLastInsurance);
 
 
     // ** Life Cycle
@@ -40,11 +43,14 @@ const LastInsurance = () => {
         dispatch(getInsuranceCompanies());
     }, [dispatch])
 
-    console.log(selectedLastInsurance);
+    if (getInsuranceLoading)
+        return (
+            <FormContentSkeleton />
+        )
 
     return (
         <div>
-            <h1 className='text-right'>بیمه شخص ثالث</h1>
+            <h1 className='form__title'>بیمه شخص ثالث</h1>
             <p className='text-right fs-14 text-grey mb-35 d-block'>.شرکت بیمه گر قبلی خود را در این بخش وارد کنید</p>
             <Formik
                 initialValues={{
@@ -126,9 +132,8 @@ const LastInsurance = () => {
                                     type="submit"
                                     variant='outlined'
                                     disabled={isSubmitting || !isValid}
-                                    endIcon={<ArrowLeft />}
+                                    startIcon={<ChevronLeftIcon />}
                                 >
-
                                     مرحله بعد
                                 </CustomButton>
                             </Grid>
@@ -138,6 +143,8 @@ const LastInsurance = () => {
                                     color="primary"
                                     onClick={() => navigate('/cars')}
                                     variant='outlined'
+                                    endIcon={<ChevronRight />}
+
                                 >
                                     بازگشت
                                 </CustomButton>

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Grid from '@mui/material/Grid';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { FormGroup } from '@mui/material'
 import { Formik, Field, Form, ErrorMessage } from "formik";
 
@@ -18,6 +19,10 @@ import { registerSchema } from './schema/schema'
 // **actions
 import * as actions from '../../../../redux/authentication/actions'
 
+// ** persian2EnglishNumber converter
+import { persian2EnglishNumber } from '../../../../services/validationServices/ValidationServices'
+
+
 //** redux
 import { useDispatch } from 'react-redux'
 
@@ -25,19 +30,23 @@ import { useDispatch } from 'react-redux'
 const Register = () => {
     let navigate = useNavigate();
 
+
     //** redux hooks
     const dispatch = useDispatch()
 
+    // detect screen
+    const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
 
-    useEffect(()=>{
+
+    useEffect(() => {
         localStorage.removeItem('userData');
         dispatch(actions.setUserData({}))
-    },[])
+    }, [dispatch])
 
 
     return (
         <div>
-            <h1 className='text-right'>ثبت نام</h1>
+            <h1 className='form__title'>ثبت نام</h1>
             <Formik
                 initialValues={{
                     firstname: "",
@@ -47,8 +56,6 @@ const Register = () => {
                 }}
                 validationSchema={registerSchema}
                 onSubmit={values => {
-
-                    console.log(values);
                     localStorage.removeItem('userData');
                     localStorage.setItem('userData', JSON.stringify({
                         firstname: values.firstname,
@@ -59,15 +66,14 @@ const Register = () => {
                     navigate('cars')
                 }}
             >
-                {({ errors, touched, isSubmitting, isValid }) => (
+                {({ errors, touched, isSubmitting, isValid, setFieldValue, values }) => (
                     <Form >
 
-                        <Grid container marginBottom={3} columnSpacing={{ xs: 0, sm: 0, md: 2 }}>
-
+                        <Grid direction={largeScreen ? 'row' : 'column-reverse'} container marginBottom={3} columnSpacing={{ xs: 0, sm: 0, md: 2 }} rowSpacing={{ xs: 3, sm: 3, md: 0 }}>
 
                             {/* LastName */}
                             <Grid xs={12} md={6} item >
-                                <FormGroup className="form-label-group position-relative has-icon-left col-12 col-sm-6">
+                                <FormGroup className="form-label-group position-relative has-icon-left ">
                                     <Field
                                         name="lastname"
                                         id="lastname"
@@ -117,12 +123,11 @@ const Register = () => {
                                         placeholder="شماره موبایل"
                                         as={CustomeTextField}
                                         type={'text'}
-                                        inputProps={{
-                                            autoComplete: 'new-password',
-                                            form: {
-                                                autoComplete: 'off',
-                                            },
+                                        autoComplete='off'
+                                        onChange={(e) => {
+                                            setFieldValue('mobile', persian2EnglishNumber(e.target.value))
                                         }}
+
                                     />
                                     <ErrorMessage
                                         name="mobile"
@@ -153,6 +158,7 @@ const Register = () => {
                                                 autoComplete: 'off',
                                             },
                                         }}
+
                                     />
                                     <ErrorMessage
                                         name="password"
@@ -165,14 +171,18 @@ const Register = () => {
 
 
                         {/* Submit Button */}
-                        <CustomButton
-                            color="primary"
-                            type="submit"
-                            variant='primary'
-                            disabled={isSubmitting || !isValid}
-                        >
-                            ثبت نام
-                        </CustomButton>
+                        <Grid container columnSpacing={{ xs: 0, sm: 0, md: 0 }} >
+                            <Grid xs={12} md={6} item justifyContent={largeScreen ? 'start' : 'center'} alignItems={'center'} display={'flex'}>
+                                <CustomButton
+                                    color="primary"
+                                    type="submit"
+                                    variant='primary'
+                                    disabled={isSubmitting || !isValid}
+                                >
+                                    ثبت نام
+                                </CustomButton>
+                            </Grid>
+                        </Grid>
                     </Form>
                 )}
             </Formik>

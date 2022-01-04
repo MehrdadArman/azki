@@ -15,6 +15,15 @@
         &-leftside {
             min-height: 100vh;
             background-color: $secondary-color;
+
+            @include xs {
+                background-color: $secondary-color;
+                min-height: 25vh;
+            }
+            @include sm {
+                background-color: $secondary-color;
+                min-height: 25vh;
+            }
         }
         &-rightside {
         }
@@ -23,9 +32,27 @@
             position: absolute;
             bottom: 36px;
             left: 30px;
+
+            @include xs {
+                left: 5px;
+                bottom: 70%;
+            }
+            @include sm {
+                left: 5px;
+                bottom: 70%;
+            }
             svg {
                 width: 100%;
                 height: 100%;
+
+                @include xs {
+                    width: 300px;
+                    height: 100%;
+                }
+                @include sm {
+                    width: 300px;
+                    height: 100%;
+                }
             }
         }
     }
@@ -33,11 +60,27 @@
     &__content {
         padding: 0px 100px;
 
+        .form__title {
+            text-align: right;
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+
+            @include xs {
+                text-align: center;
+                font-size: 1.2rem;
+            }
+            @include sm {
+                text-align: center;
+                font-size: 1.2rem;
+            }
+        }
         @include xs {
-            padding: 30px 50px;
+            padding: 30px 15px;
+            padding-bottom: 130px;
         }
         @include sm {
-            padding: 30px 50px;
+            padding: 30px 15px;
+            padding-top: 130px;
         }
     }
 }
@@ -45,14 +88,26 @@
 .navigation {
     position: fixed;
     top: 0;
-    left: 0;
-    width: 100%;
+    background-color: red;
     padding: 20px 50px;
     background-color: transparent;
-    z-index: 9999;
+    z-index: 99;
+    width: 100%;
+    @include sm {
+        padding: 20px 30px;
+    }
+
+    &__title {
+        @include xs {
+            display: none;
+        }
+        @include sm {
+            display: none;
+        }
+    }
     &__logo {
         svg {
-            width: 200px;
+           
         }
     }
 }

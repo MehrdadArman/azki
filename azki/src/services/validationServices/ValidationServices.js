@@ -27,4 +27,7 @@ export const getMobileNumber = (mobileNumber) => {
     });
     return mobiles;
   };
+
+  export const persian2EnglishNumber = s => s.replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+
   

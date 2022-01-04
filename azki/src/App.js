@@ -4,7 +4,8 @@ import { theme } from './configs/theme'
 import FullLayOut from './layout/FullPageLayout'
 import { Provider } from "react-redux";
 import { store } from './redux/store'
-import CircularProgress from '@mui/material/CircularProgress';
+
+import PageGlobalLoader from './components/loader/pageGlobalLoader'
 
 
 import "./assets/scss/app.scss"
@@ -18,9 +19,7 @@ function App() {
       <Provider store={store}>
         <Suspense
           fallback={
-            <div style={{justifyContent:'center',minHeight:'100vh',width:'100%'}}>
-              <CircularProgress color="primary" />
-            </div>
+            <PageGlobalLoader />
           }
         >
           <ThemeProvider theme={theme}>

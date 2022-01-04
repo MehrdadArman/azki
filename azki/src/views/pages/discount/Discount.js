@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Formik, Form, ErrorMessage } from "formik";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 import { FormGroup } from '@mui/material'
 import Autocomplete from '@mui/material/Autocomplete';
 
@@ -17,6 +19,8 @@ import { discountSchema } from './schema/Schema'
 //** svg
 import { ReactComponent as ArrowLeft } from '../../../assets/img/arrow.svg'
 
+// ** skeleton
+import FormContentSkeleton from '../../../components/skeleton/formContentSkeleton'
 
 //**  actions
 import { getThirdDiscount, getDriverDiscount, setSelectedDriverDiscount, setSelectedThirdDiscount } from '../../../redux/discount/actions'
@@ -41,6 +45,8 @@ const Discount = () => {
     const driverDiscountList = useSelector((state) => state.discount.driverDiscountList);
     const getDriverDiscountLoading = useSelector((state) => state.discount.getDriverDiscountLoading);
 
+    const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
+
 
 
 
@@ -50,6 +56,11 @@ const Discount = () => {
         dispatch(getDriverDiscount());
     }, [dispatch])
 
+
+    if (getThirdDiscountLoading)
+        return (
+            <FormContentSkeleton />
+        )
 
 
     return (
@@ -65,7 +76,7 @@ const Discount = () => {
                 }}
             />
 
-            <h1 className='text-right'>بیمه شخص ثالث</h1>
+            <h1 className='form__title'>بیمه شخص ثالث</h1>
             <p className='text-right fs-14 text-grey mb-35 d-block'>درصد تخفیف بیمه شخص ثالث و حوادث راننده را وارد کنید.</p>
             <Formik
                 initialValues={{
@@ -179,7 +190,7 @@ const Discount = () => {
                         </Grid>
 
                         <Grid container columnSpacing={{ xs: 0, sm: 0, md: 0 }} >
-                            <Grid xs={6} md={6} item justifyContent={'start'} alignItems={'center'} display={'flex'}>
+                            <Grid xs={12} md={6} item justifyContent={largeScreen ? 'start' : 'center'} alignItems={'center'} display={'flex'}>
                                 <CustomButton
                                     color="primary"
                                     type="submit"

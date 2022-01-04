@@ -2,14 +2,18 @@ import React, { useEffect } from 'react'
 import { Formik, Form, ErrorMessage } from "formik";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { FormGroup } from '@mui/material'
 import Autocomplete from '@mui/material/Autocomplete';
+
+// ** icon
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRight from '@mui/icons-material/ChevronRight';
 
 // ** schema
 import { selectCarSchema } from './schema/Schema'
 
-//** svg
-import { ReactComponent as ArrowLeft } from '../../../assets/img/arrow.svg'
+
 
 //** history
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +24,9 @@ import { getCarType, setSelectedCarType, setSelectedCarBrand } from '../../../re
 //**  custom components
 import { CustomeTextField } from '../../../components/inputs/CustomTextField'
 import { CustomButton } from '../../../components/buttons/CustomButton'
+
+// ** skeleton
+import FormContentSkeleton from '../../../components/skeleton/formContentSkeleton'
 
 //** redux
 import { useSelector, useDispatch } from 'react-redux'
@@ -36,15 +43,21 @@ const Cars = () => {
     const selectedCarType = useSelector((state) => state.cars.selectedCarType);
     const getCarsLoading = useSelector((state) => state.cars.getCarsLoading);
 
+    const largeScreen = useMediaQuery(theme => theme.breakpoints.up('md'));
+
     // ** Life Cycle
     useEffect(() => {
         dispatch(getCarType());
     }, [dispatch])
 
+    if (getCarsLoading)
+        return (
+            <FormContentSkeleton />
+        )
 
     return (
         <div>
-            <h1 className='text-right'>بیمه شخص ثالث</h1>
+            <h1 className='form__title'>بیمه شخص ثالث</h1>
             <p className='text-right fs-14 text-grey mb-35 d-block'>.نوع و مدل  خودرو خود را انتخاب کنید</p>
             <Formik
                 initialValues={{
@@ -59,7 +72,7 @@ const Cars = () => {
                 {({ errors, touched, isSubmitting, isValid, setFieldValue }) => (
                     <Form >
 
-                        <Grid container marginBottom={3} columnSpacing={{ xs: 0, sm: 0, md: 2 }}>
+                        <Grid container marginBottom={3} direction={largeScreen ? 'row' : 'column-reverse'} columnSpacing={{ xs: 0, sm: 0, md: 2 }} rowSpacing={{ xs: 3, sm: 3, md: 0 }}>
                             {/* Car Brand */}
                             <Grid xs={12} md={6} item>
                                 <FormGroup >
@@ -167,8 +180,6 @@ const Cars = () => {
                                     />
                                 </FormGroup>
                             </Grid>
-
-
                         </Grid>
 
 
@@ -179,7 +190,7 @@ const Cars = () => {
                                     type="submit"
                                     variant='outlined'
                                     disabled={isSubmitting || !isValid}
-                                    endIcon={<ArrowLeft />}
+                                    startIcon={<ChevronLeftIcon />}
                                 >
 
                                     مرحله بعد
@@ -191,6 +202,7 @@ const Cars = () => {
                                     color="primary"
                                     onClick={() => navigate('/')}
                                     variant='outlined'
+                                    endIcon={<ChevronRight />}
                                 >
                                     بازگشت
                                 </CustomButton>
