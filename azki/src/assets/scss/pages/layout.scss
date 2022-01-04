@@ -1,0 +1,58 @@
+.full-layout {
+    &__description {
+        min-height: 100vh;
+        position: relative;
+
+        @include xs {
+            background-color: $secondary-color;
+            min-height: unset;
+        }
+        @include sm {
+            background-color: $secondary-color;
+            min-height: unset;
+        }
+
+        &-leftside {
+            min-height: 100vh;
+            background-color: $secondary-color;
+        }
+        &-rightside {
+        }
+
+        &-carsvg {
+            position: absolute;
+            bottom: 36px;
+            left: 30px;
+            svg {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+
+    &__content {
+        padding: 0px 100px;
+
+        @include xs {
+            padding: 30px 50px;
+        }
+        @include sm {
+            padding: 30px 50px;
+        }
+    }
+}
+
+.navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 50px;
+    background-color: transparent;
+    z-index: 9999;
+    &__logo {
+        svg {
+            width: 200px;
+        }
+    }
+}

@@ -1,0 +1,66 @@
+// text colors
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-danger {
+    color: $text-danger;
+}
+
+.text-grey {
+    color: #979796;
+}
+
+// fonts size
+.fs-24 {
+    font-size: 24px;
+
+    @include xs {
+        font-size: 18px;
+    }
+    @include sm {
+        font-size: 18px;
+    }
+}
+
+.fs-14 {
+    font-size: 14px;
+
+    @include xs {
+        font-size: 12px;
+    }
+    @include sm {
+        font-size: 12px;
+    }
+}
+
+.font-iran {
+    font-family: IRANSans !important;
+}
+
+// display
+.d-block {
+    display: block;
+}
+.d-flex {
+    display: flex;
+}
+
+// TODO: I have to check it for border color for invalid style
+.is-invalid {
+    // border:1.8px solid $text-danger !important;
+    // border-radius: 4px;
+}
+
+
+.w-100{
+    width: 100%;
+}
